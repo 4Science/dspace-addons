@@ -3,6 +3,7 @@
 	<parent>
 		<artifactId>addon-commons</artifactId>
 		<groupId>it.4science.dspace</groupId>
+		<version>5.0-SNAPSHOT</version>
 		<relativePath>../</relativePath>
 	</parent>
 
