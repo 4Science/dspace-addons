@@ -9,11 +9,23 @@
 
 	<groupId>it.4science.dspace</groupId>
 	<artifactId>addon-commons-api</artifactId>
-	
+
+
+    <properties>
+        <!-- This is the path to the root [dspace-src] directory. -->
+        <root.basedir>${basedir}/..</root.basedir>
+    </properties>
+    	
 	<dependencies>
 		<dependency>
 			<groupId>org.dspace</groupId>
 			<artifactId>dspace-api</artifactId>
 		</dependency>
+		
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>javax.servlet-api</artifactId>
+			<scope>compile</scope>
+		</dependency>	
 	</dependencies>
 </project>

@@ -1,3 +1,10 @@
+/**
+ * The contents of this file are subject to the license and copyright
+ * detailed in the LICENSE and NOTICE files at the root of the source
+ * tree and available online at
+ *
+ * http://www.dspace.org/license/
+ */
 package org.dspace.app.webui.servlet;
 
 import java.io.BufferedInputStream;
@@ -6,6 +13,7 @@ import java.io.InputStream;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
+import javax.servlet.ReadListener;
 import javax.servlet.ServletInputStream;
 import javax.servlet.http.HttpServletRequest;
 
@@ -118,5 +126,27 @@ public class ProxyServletRequestWrapper implements java.lang.reflect.InvocationH
 	    public boolean markSupported() {
 	        return is.markSupported();
 	    }
+
+        public boolean isFinished()
+        {
+            try
+            {
+                return ((is.available())==0);
+            }
+            catch (IOException e)
+            {
+                return false;
+            }
+        }
+
+        public boolean isReady()
+        {
+            return true;
+        }
+
+        public void setReadListener(ReadListener readListener)
+        {
+            throw new RuntimeException("Not implemented");            
+        }
 	}
 }

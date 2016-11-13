@@ -13,6 +13,11 @@
 	<packaging>war</packaging>
 	<name>4Science Addons Commons JSPUI</name>
 
+    <properties>
+        <!-- This is the path to the root [dspace-src] directory. -->
+        <root.basedir>${basedir}/..</root.basedir>
+    </properties>
+    
 	<build>
 		<finalName>addon-commons-jspui</finalName>
 		<plugins>
@@ -61,7 +66,15 @@
 		    <groupId>org.mitre.dsmiley.httpproxy</groupId>
 		    <artifactId>smiley-http-proxy-servlet</artifactId>
 		    <version>1.8</version>
-		</dependency>	
+		</dependency>
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>javax.servlet-api</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>it.4science.dspace</groupId>
+			<artifactId>addon-commons-api</artifactId>
+		</dependency>			
 	</dependencies>
 
 </project>
