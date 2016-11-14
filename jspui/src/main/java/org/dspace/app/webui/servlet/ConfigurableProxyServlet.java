@@ -9,6 +9,7 @@ package org.dspace.app.webui.servlet;
 
 import java.io.IOException;
 import java.io.OutputStream;
+import java.lang.reflect.Constructor;
 import java.lang.reflect.Proxy;
 import java.net.URI;
 import java.sql.SQLException;
@@ -22,7 +23,11 @@ import org.apache.http.Header;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpRequest;
 import org.apache.http.HttpResponse;
+import org.apache.http.client.HttpClient;
 import org.apache.http.client.utils.URIUtils;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.impl.conn.tsccm.ThreadSafeClientConnManager;
+import org.apache.http.params.HttpParams;
 import org.apache.http.util.EntityUtils;
 import org.dspace.app.webui.util.IProxyServiceSecurityCheck;
 import org.dspace.content.Bitstream;
@@ -87,6 +92,7 @@ public class ConfigurableProxyServlet extends ProxyServlet {
         HttpServletRequest proxyRequest = (HttpServletRequest) Proxy.newProxyInstance(this.getClass().getClassLoader(),
             proxyInterfaces,
             proxyServiceRequestWrapper);
+        super.service(proxyRequest, servletResponse);
 		if (servletResponse.getHeader("Access-Control-Allow-Origin") != null) {
 			if (doLog) {
 				log("CORS Header found");
@@ -137,4 +143,5 @@ public class ConfigurableProxyServlet extends ProxyServlet {
 			}
 		}
 	}
+	
 }
