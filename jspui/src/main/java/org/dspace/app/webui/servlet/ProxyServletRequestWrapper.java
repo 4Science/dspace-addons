@@ -13,11 +13,9 @@ import java.io.InputStream;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
-import javax.servlet.ReadListener;
 import javax.servlet.ServletInputStream;
 import javax.servlet.http.HttpServletRequest;
 
-import org.apache.commons.io.IOUtils;
 import org.dspace.app.webui.util.IProxyServiceSecurityCheck;
 import org.dspace.app.webui.util.UIUtil;
 import org.dspace.authorize.AuthorizeManager;
@@ -127,26 +125,5 @@ public class ProxyServletRequestWrapper implements java.lang.reflect.InvocationH
 	        return is.markSupported();
 	    }
 
-        public boolean isFinished()
-        {
-            try
-            {
-                return ((is.available())==0);
-            }
-            catch (IOException e)
-            {
-                return false;
-            }
-        }
-
-        public boolean isReady()
-        {
-            return true;
-        }
-
-        public void setReadListener(ReadListener readListener)
-        {
-            throw new RuntimeException("Not implemented");            
-        }
 	}
 }
