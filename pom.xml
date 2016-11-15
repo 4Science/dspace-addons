@@ -20,6 +20,7 @@
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<dspace-cris.version>[CRIS-5.0.0-SNAPSHOT,CRIS-6.0.0-SNAPSHOT)</dspace-cris.version>
         <!-- 'root.basedir' is the path to the root [src] dir. It must be redefined by each child POM,
              as it is used to reference the LICENSE_HEADER and *.properties file(s) in that directory. -->		
 		<root.basedir>${basedir}</root.basedir>		
@@ -181,14 +182,24 @@
 			<dependency>
 				<groupId>org.dspace</groupId>
 				<artifactId>dspace-api</artifactId>
-				<version>[CRIS-5.0.0-SNAPSHOT,CRIS-6.0.0-SNAPSHOT)</version>
+				<version>${dspace-cris.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>org.dspace</groupId>
 				<artifactId>dspace-jspui</artifactId>
 				<type>jar</type>
 				<classifier>classes</classifier>
-				<version>[CRIS-5.0.0-SNAPSHOT,CRIS-6.0.0-SNAPSHOT)</version>
+				<version>${dspace-cris.version}</version>
+				<exclusions>
+	            	<exclusion>
+	            		<groupId>javax.servlet</groupId>
+	            		<artifactId>jstl</artifactId>
+	            	</exclusion>
+	            	<exclusion>
+	            		<groupId>javax.servlet</groupId>
+	            		<artifactId>standard</artifactId>
+	            	</exclusion>            	
+	            </exclusions>
 			</dependency>
 			<dependency>
 				<groupId>javax.servlet</groupId>
