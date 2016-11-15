@@ -183,7 +183,7 @@
 				<groupId>org.dspace</groupId>
 				<artifactId>dspace-api</artifactId>
 				<version>${dspace-cris.version}</version>
-				<scope>compile</scope>
+				<scope>provided</scope>
 			</dependency>
 			<dependency>
 				<groupId>org.dspace</groupId>
@@ -191,7 +191,7 @@
 				<type>jar</type>
 				<classifier>classes</classifier>
 				<version>${dspace-cris.version}</version>
-				<scope>compile</scope>
+				<scope>provided</scope>
 			</dependency>
 			<dependency>
 				<groupId>javax.servlet</groupId>
