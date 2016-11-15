@@ -12,6 +12,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.lang.reflect.Proxy;
 
 import javax.servlet.ServletInputStream;
 import javax.servlet.http.HttpServletRequest;
@@ -61,7 +62,11 @@ public class ProxyServletRequestWrapper implements java.lang.reflect.InvocationH
                     realRequest.setAttribute("ProxyServletRequestWrapper-requestPath", realRequest.getServletPath() + "/" + realPath[1]); 
                     Bitstream bit = Bitstream.find(context, Integer.parseInt(realPath[1]));
                     AuthorizeManager.authorizeAction(context, bit, Constants.READ);
-                    proxyServiceSecurityCheck.extraSecurityCheck(context, bit, realRequest);
+                    Class[] proxyInterfaces = new Class[] { HttpServletRequest.class };
+                    HttpServletRequest proxyRequest = (HttpServletRequest) Proxy.newProxyInstance(this.getClass().getClassLoader(),
+                            proxyInterfaces,
+                            this);
+                    proxyServiceSecurityCheck.extraSecurityCheck(context, bit, proxyRequest);
                     // remove first part containing the bitstreamID to check
                     // extra security
                     rewritePathInfo = "/"+(realPath.length == 3?realPath[2]:"");

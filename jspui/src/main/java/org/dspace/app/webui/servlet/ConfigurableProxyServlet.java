@@ -143,4 +143,10 @@ public class ConfigurableProxyServlet extends ProxyServlet {
 		}
 	}
 	
+    //@Override
+    //protected HttpClient createHttpClient(HttpParams hcParams)
+    //{
+    //    // TODO Auto-generated method stub
+    //    return new DefaultHttpClient(new ThreadSafeClientConnManager(), hcParams);
+    //}
 }
