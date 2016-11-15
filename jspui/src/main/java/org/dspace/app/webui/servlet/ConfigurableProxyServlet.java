@@ -9,7 +9,6 @@ package org.dspace.app.webui.servlet;
 
 import java.io.IOException;
 import java.io.OutputStream;
-import java.lang.reflect.Constructor;
 import java.lang.reflect.Proxy;
 import java.net.URI;
 import java.sql.SQLException;
@@ -18,7 +17,6 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.hadoop.security.authorize.AuthorizationException;
 import org.apache.http.Header;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpRequest;
@@ -30,6 +28,7 @@ import org.apache.http.impl.conn.tsccm.ThreadSafeClientConnManager;
 import org.apache.http.params.HttpParams;
 import org.apache.http.util.EntityUtils;
 import org.dspace.app.webui.util.IProxyServiceSecurityCheck;
+import org.dspace.authorize.AuthorizeException;
 import org.dspace.content.Bitstream;
 import org.dspace.core.ConfigurationManager;
 import org.dspace.core.Context;
@@ -56,7 +55,7 @@ public class ConfigurableProxyServlet extends ProxyServlet {
 			proxyServiceSecurityCheck = new IProxyServiceSecurityCheck() {
 				@Override
 				public void extraSecurityCheck(Context context, Bitstream bit, HttpServletRequest req)
-						throws AuthorizationException, SQLException, IOException {
+						throws AuthorizeException, SQLException, IOException {
 					// NO OP
 				}
 			};

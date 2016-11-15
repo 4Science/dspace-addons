@@ -12,7 +12,7 @@ import java.sql.SQLException;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.apache.hadoop.security.authorize.AuthorizationException;
+import org.dspace.authorize.AuthorizeException;
 import org.dspace.content.Bitstream;
 import org.dspace.core.Context;
 
@@ -26,5 +26,5 @@ public interface IProxyServiceSecurityCheck {
 	 * @param req
 	 */
 	public void extraSecurityCheck(Context context, Bitstream bit, HttpServletRequest req)
-			throws AuthorizationException, SQLException, IOException;
+			throws AuthorizeException, SQLException, IOException;
 }
