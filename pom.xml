@@ -183,6 +183,7 @@
 				<groupId>org.dspace</groupId>
 				<artifactId>dspace-api</artifactId>
 				<version>${dspace-cris.version}</version>
+				<scope>compile</scope>
 			</dependency>
 			<dependency>
 				<groupId>org.dspace</groupId>
@@ -190,22 +191,19 @@
 				<type>jar</type>
 				<classifier>classes</classifier>
 				<version>${dspace-cris.version}</version>
-				<exclusions>
-	            	<exclusion>
-	            		<groupId>javax.servlet</groupId>
-	            		<artifactId>jstl</artifactId>
-	            	</exclusion>
-	            	<exclusion>
-	            		<groupId>javax.servlet</groupId>
-	            		<artifactId>standard</artifactId>
-	            	</exclusion>            	
-	            </exclusions>
+				<scope>compile</scope>
 			</dependency>
 			<dependency>
 				<groupId>javax.servlet</groupId>
 				<artifactId>javax.servlet-api</artifactId>
 				<version>3.0.1</version>
 			</dependency>
+			<dependency>
+			    <groupId>org.mitre.dsmiley.httpproxy</groupId>
+			    <artifactId>smiley-http-proxy-servlet</artifactId>
+			    <type>jar</type>
+			    <version>1.8</version>
+			</dependency>			
 			<dependency>
 				<groupId>it.4science.dspace</groupId>
 				<artifactId>addon-commons-api</artifactId>
