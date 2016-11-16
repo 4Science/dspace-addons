@@ -27,7 +27,7 @@
 				<artifactId>maven-war-plugin</artifactId>
 				<version>2.4</version>
 				<configuration>
-					<attachClasses>true</attachClasses>
+					<archiveClasses>false</archiveClasses>
 					<!-- In version 2.1-alpha-1, this was incorrectly named warSourceExcludes -->
 					<!-- <packagingExcludes>WEB-INF/lib/*.jar</packagingExcludes> -->
 					<warSourceExcludes>WEB-INF/lib/*.jar</warSourceExcludes>
