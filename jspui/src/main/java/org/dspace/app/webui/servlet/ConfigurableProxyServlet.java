@@ -143,10 +143,12 @@ public class ConfigurableProxyServlet extends ProxyServlet {
 		}
 	}
 	
-    //@Override
-    //protected HttpClient createHttpClient(HttpParams hcParams)
-    //{
-    //    // TODO Auto-generated method stub
-    //    return new DefaultHttpClient(new ThreadSafeClientConnManager(), hcParams);
-    //}
+    @Override
+    protected HttpClient createHttpClient(HttpParams hcParams)
+    {
+        if(ConfigurationManager.getBooleanProperty("ckan", "use.default.httpclient", false)) {
+            return super.createHttpClient(hcParams);
+        }
+        return new DefaultHttpClient(new ThreadSafeClientConnManager(), hcParams);
+    }
 }
