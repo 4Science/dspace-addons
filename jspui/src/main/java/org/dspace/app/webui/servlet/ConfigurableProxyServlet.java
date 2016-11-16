@@ -147,8 +147,8 @@ public class ConfigurableProxyServlet extends ProxyServlet {
     protected HttpClient createHttpClient(HttpParams hcParams)
     {
         if(ConfigurationManager.getBooleanProperty("ckan", "use.default.httpclient", false)) {
-            return super.createHttpClient(hcParams);
+            return new DefaultHttpClient(new ThreadSafeClientConnManager(), hcParams);
         }
-        return new DefaultHttpClient(new ThreadSafeClientConnManager(), hcParams);
+        return super.createHttpClient(hcParams);
     }
 }
