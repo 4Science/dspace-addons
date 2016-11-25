@@ -86,6 +86,7 @@ public class ConfigurableProxyServlet extends ProxyServlet {
 	@Override
 	protected void service(HttpServletRequest servletRequest, HttpServletResponse servletResponse)
 			throws ServletException, IOException {
+	    log("Call proxyservlet service to add CORS Header");
 		ProxyServletRequestWrapper proxyServiceRequestWrapper = new ProxyServletRequestWrapper(servletRequest, proxyServiceSecurityCheck);
         Class[] proxyInterfaces = new Class[] { HttpServletRequest.class };
         HttpServletRequest proxyRequest = (HttpServletRequest) Proxy.newProxyInstance(this.getClass().getClassLoader(),
@@ -102,6 +103,7 @@ public class ConfigurableProxyServlet extends ProxyServlet {
 				log("CORS Header added");
 			}
 		}
+		log("End proxyservlet service");
 	}
 	
 	protected void copyResponseEntity(HttpResponse proxyResponse, HttpServletResponse servletResponse,
