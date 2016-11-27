@@ -47,8 +47,17 @@ public class ConfigurableProxyServlet extends ProxyServlet {
 		moduleName = getConfigParam("moduleName");
 		serverUrlPropertyName = getConfigParam("serverUrlPropertyName");
 		forceRewriteRelativePath = "true".equalsIgnoreCase(getConfigParam("forceRewriteRelativePath"));
+		if (doLog) {
+		    log("###INIT ConfigurableProxyServlet###");
+		    log("moduleName="+moduleName);
+		    log("serverUrlPropertyName="+serverUrlPropertyName);
+		    log("forceRewriteRelativePath="+forceRewriteRelativePath);
+		}
 		String proxyServiceSecurityCheckBeanID = getConfigParam("proxyServiceSecurityCheck");
 		if (proxyServiceSecurityCheckBeanID != null) {
+		      if (doLog) {
+		          log("proxyServiceSecurityCheckBeanID="+proxyServiceSecurityCheckBeanID);
+		      }
 			proxyServiceSecurityCheck = new DSpace().getServiceManager()
 					.getServiceByName(proxyServiceSecurityCheckBeanID, IProxyServiceSecurityCheck.class);
 		} else {
@@ -72,27 +81,45 @@ public class ConfigurableProxyServlet extends ProxyServlet {
 			throw new ServletException("Trying to process targetUri init parameter: " + e, e);
 		}
 		targetHost = URIUtils.extractHost(targetUriObj);
+		if (doLog) {
+		    log("targetUri="+targetUri);
+		    log("targetHost="+targetHost.getHostName());
+		}
 	}
 
 	protected void copyResponseHeader(HttpServletRequest servletRequest,
             HttpServletResponse servletResponse, Header header) {
 		if (!"Content-Length".equals(header.getName())) {
+		      if (doLog) {
+		            log("Copy Response HEADER (headerName="+header.getName()+")");
+		        }
 			super.copyResponseHeader(servletRequest,
 		            servletResponse, header);
 		}
 		// skip content-length
+		if (doLog) {
+		    log("Skip content-length (headerName="+header.getName()+")");
+		}
 	}
 	
 	@Override
 	protected void service(HttpServletRequest servletRequest, HttpServletResponse servletResponse)
 			throws ServletException, IOException {
-	    log("Call proxyservlet service to add CORS Header");
+	    if (doLog) {
+	        log("Call proxyservlet service to add CORS Header");
+	    }
 		ProxyServletRequestWrapper proxyServiceRequestWrapper = new ProxyServletRequestWrapper(servletRequest, proxyServiceSecurityCheck);
         Class[] proxyInterfaces = new Class[] { HttpServletRequest.class };
         HttpServletRequest proxyRequest = (HttpServletRequest) Proxy.newProxyInstance(this.getClass().getClassLoader(),
             proxyInterfaces,
             proxyServiceRequestWrapper);
+        if (doLog) {
+            log("Call super.service");
+        }
         super.service(proxyRequest, servletResponse);
+        if (doLog) {
+            log("Preparing to check CORS Header");
+        }
 		if (servletResponse.getHeader("Access-Control-Allow-Origin") != null) {
 			if (doLog) {
 				log("CORS Header found");
@@ -103,7 +130,9 @@ public class ConfigurableProxyServlet extends ProxyServlet {
 				log("CORS Header added");
 			}
 		}
-		log("End proxyservlet service");
+		if (doLog) {
+		    log("End proxyservlet service");
+		}
 	}
 	
 	protected void copyResponseEntity(HttpResponse proxyResponse, HttpServletResponse servletResponse,
@@ -111,21 +140,37 @@ public class ConfigurableProxyServlet extends ProxyServlet {
 		HttpEntity entity = proxyResponse.getEntity();
 		if (entity != null) {
 			if (entity.getContentType() != null && entity.getContentType().getValue().contains("json")) {
+			    if (doLog) {
+			        log("Content Type found (JSON)");
+			    }
 				String responseString = EntityUtils.toString(entity, "UTF-8");
 				String rewriteResponseStr = responseString
 						.replace(targetUri,
 								ConfigurationManager.getProperty("dspace.url") + servletRequest
 										.getAttribute("ProxyServletRequestWrapper-requestPath"));
-				
+                if (doLog) {
+                    log("responseString="+responseString);
+                    log("rewriteResponseStr="+rewriteResponseStr);
+                }				
 				if (forceRewriteRelativePath) {
+	                if (doLog) {
+	                    log("DO force rewrite relative path");
+	                }
 					String relativeUri = proxyRequest.getRequestLine().getUri().substring(targetUri.length());
 					int idxLastSlash = relativeUri.lastIndexOf("/");
 					if (idxLastSlash > 0) {
+					    if (doLog) {
+					        log("idxLastSlash="+idxLastSlash);
+					    }
 						String relativePath = relativeUri.substring(0, idxLastSlash);
 						rewriteResponseStr = rewriteResponseStr.replace("\"" + relativePath,
 								"\"" + ConfigurationManager.getProperty("dspace.url")
 										+ servletRequest.getAttribute("ProxyServletRequestWrapper-requestPath") + relativePath);
 					}
+	                if (doLog) {
+	                    log("relativeUri="+relativeUri);
+	                    log("rewriteResponseStr="+rewriteResponseStr);
+	                }
 				}
 				byte[] rewriteBytes = rewriteResponseStr
 						.getBytes();
@@ -135,6 +180,9 @@ public class ConfigurableProxyServlet extends ProxyServlet {
 				servletResponse.setContentLength(rewriteBytes.length);
 			}
 			else {
+                if (doLog) {
+                    log("No JSON content type found!");
+                }
 				Header lenghtHeader = proxyResponse.getFirstHeader("Context-Length");
 				if (lenghtHeader != null && lenghtHeader.getValue() != null) {
 					servletResponse.addHeader(lenghtHeader.getName(), lenghtHeader.getValue());
@@ -149,6 +197,9 @@ public class ConfigurableProxyServlet extends ProxyServlet {
     protected HttpClient createHttpClient(HttpParams hcParams)
     {
         if(ConfigurationManager.getBooleanProperty("ckan", "use.default.httpclient", false)) {
+            if (doLog) {
+                log("Using DefaultHttpClient");
+            }
             return new DefaultHttpClient(new ThreadSafeClientConnManager(), hcParams);
         }
         return super.createHttpClient(hcParams);

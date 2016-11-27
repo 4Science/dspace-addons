@@ -17,7 +17,7 @@ import java.lang.reflect.Proxy;
 import javax.servlet.ServletInputStream;
 import javax.servlet.http.HttpServletRequest;
 
-import org.apache.commons.io.IOUtils;
+import org.apache.log4j.Logger;
 import org.dspace.app.webui.util.IProxyServiceSecurityCheck;
 import org.dspace.app.webui.util.UIUtil;
 import org.dspace.authorize.AuthorizeManager;
@@ -27,6 +27,9 @@ import org.dspace.core.Context;
 
 public class ProxyServletRequestWrapper implements java.lang.reflect.InvocationHandler {
 
+    /** log4j category */
+    private static Logger log = Logger.getLogger(ProxyServletRequestWrapper.class);
+    
     private HttpServletRequest realRequest;
 
     private InputStream inputStream;
@@ -49,7 +52,9 @@ public class ProxyServletRequestWrapper implements java.lang.reflect.InvocationH
 
     @Override
     public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
+        log.debug("call invoke");
         try {
+            log.debug("methodName="+method.getName());
             if (method.getName().equals("getPathInfo")) {
                 if (rewritePathInfo != null) {
                     return rewritePathInfo;
@@ -70,6 +75,7 @@ public class ProxyServletRequestWrapper implements java.lang.reflect.InvocationH
                     // remove first part containing the bitstreamID to check
                     // extra security
                     rewritePathInfo = "/"+(realPath.length == 3?realPath[2]:"");
+                    log.debug("rewritePathInfo="+rewritePathInfo);
                     return rewritePathInfo;
                 } finally {
                     // Abort the context if it's still valid
