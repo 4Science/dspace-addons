@@ -19,13 +19,14 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.apache.log4j.Logger;
 import org.dspace.app.webui.util.IProxyServiceSecurityCheck;
+import org.dspace.app.webui.util.IProxyWrapper;
 import org.dspace.app.webui.util.UIUtil;
 import org.dspace.authorize.AuthorizeManager;
 import org.dspace.content.Bitstream;
 import org.dspace.core.Constants;
 import org.dspace.core.Context;
 
-public class ProxyServletRequestWrapper implements java.lang.reflect.InvocationHandler {
+public class ProxyServletRequestWrapper implements IProxyWrapper {
 
     /** log4j category */
     private static Logger log = Logger.getLogger(ProxyServletRequestWrapper.class);
@@ -136,5 +137,11 @@ public class ProxyServletRequestWrapper implements java.lang.reflect.InvocationH
         public boolean markSupported() {
             return is.markSupported();
         }
+    }
+
+    @Override
+    public Object getRealObject()
+    {
+        return realRequest;
     }
 }
