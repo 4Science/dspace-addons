@@ -29,15 +29,15 @@ import org.dspace.core.Context;
 public class ProxyServletRequestWrapper implements IProxyWrapper {
 
     /** log4j category */
-    private static Logger log = Logger.getLogger(ProxyServletRequestWrapper.class);
+    protected Logger log = Logger.getLogger(this.getClass());
     
-    private HttpServletRequest realRequest;
+    protected HttpServletRequest realRequest;
 
-    private InputStream inputStream;
+    protected InputStream inputStream;
     
-    private String rewritePathInfo;
+    protected String rewritePathInfo;
 
-    private IProxyServiceSecurityCheck proxyServiceSecurityCheck;
+    protected IProxyServiceSecurityCheck proxyServiceSecurityCheck;
 
     public ProxyServletRequestWrapper(HttpServletRequest realRequest,
             IProxyServiceSecurityCheck proxyServiceSecurityCheck) {

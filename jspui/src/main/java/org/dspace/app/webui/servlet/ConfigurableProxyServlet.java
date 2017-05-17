@@ -28,6 +28,7 @@ import org.apache.http.impl.conn.tsccm.ThreadSafeClientConnManager;
 import org.apache.http.params.HttpParams;
 import org.apache.http.util.EntityUtils;
 import org.dspace.app.webui.util.IProxyServiceSecurityCheck;
+import org.dspace.app.webui.util.IProxyWrapper;
 import org.dspace.authorize.AuthorizeException;
 import org.dspace.content.Bitstream;
 import org.dspace.core.ConfigurationManager;
@@ -40,6 +41,7 @@ public class ConfigurableProxyServlet extends ProxyServlet {
 	private String moduleName;
 	private String serverUrlPropertyName;
 	private IProxyServiceSecurityCheck proxyServiceSecurityCheck;
+	private IProxyWrapperFactory requestWrapperFactory;
 	private boolean forceRewriteRelativePath = false;
 
 	@Override
@@ -53,6 +55,23 @@ public class ConfigurableProxyServlet extends ProxyServlet {
 		    log("serverUrlPropertyName="+serverUrlPropertyName);
 		    log("forceRewriteRelativePath="+forceRewriteRelativePath);
 		}
+		
+		String requestWrapperFactoryBeanID = getConfigParam("proxyWrapperFactory");
+		if (requestWrapperFactoryBeanID != null) {
+		      if (doLog) {
+		          log("requestWrapperFactoryBeanID="+requestWrapperFactoryBeanID);
+		      }
+		      requestWrapperFactory = new DSpace().getServiceManager()
+					.getServiceByName(requestWrapperFactoryBeanID, IProxyWrapperFactory.class);
+		} else {
+			requestWrapperFactory = new IProxyWrapperFactory() {
+				@Override
+				public IProxyWrapper getWrapper(HttpServletRequest req, IProxyServiceSecurityCheck security) {
+					return new ProxyServletRequestWrapper(req, security);
+				}
+			};
+		}
+		
 		String proxyServiceSecurityCheckBeanID = getConfigParam("proxyServiceSecurityCheck");
 		if (proxyServiceSecurityCheckBeanID != null) {
 		      if (doLog) {
@@ -87,52 +106,37 @@ public class ConfigurableProxyServlet extends ProxyServlet {
 		}
 	}
 
-	protected void copyResponseHeader(HttpServletRequest servletRequest,
-            HttpServletResponse servletResponse, Header header) {
+	protected void copyResponseHeader(HttpServletRequest servletRequest, HttpServletResponse servletResponse,
+			Header header) {
+		if ("Access-Control-Allow-Origin".equals(header.getName())) {
+			return; // CORS headers always added in the service method
+		}
 		if (!"Content-Length".equals(header.getName())) {
-		      if (doLog) {
-		            log("Copy Response HEADER (headerName="+header.getName()+")");
-		        }
-			super.copyResponseHeader(servletRequest,
-		            servletResponse, header);
+			if (doLog) {
+				log("Copy Response HEADER (headerName=" + header.getName() + ")");
+			}
+			super.copyResponseHeader(servletRequest, servletResponse, header);
 		}
 		// skip content-length
-		if (doLog) {
-		    log("Skip content-length (headerName="+header.getName()+")");
+		else if (doLog) {
+			log("Skip content-length (headerName=" + header.getName() + ")");
 		}
 	}
 	
 	@Override
 	protected void service(HttpServletRequest servletRequest, HttpServletResponse servletResponse)
 			throws ServletException, IOException {
-	    if (doLog) {
-	        log("Call proxyservlet service to add CORS Header");
-	    }
-		ProxyServletRequestWrapper proxyServiceRequestWrapper = new ProxyServletRequestWrapper(servletRequest, proxyServiceSecurityCheck);
+		servletResponse.setHeader("Access-Control-Allow-Origin", "*");
+		IProxyWrapper proxyServiceRequestWrapper = getRequestWrapper(servletRequest);
         Class[] proxyInterfaces = new Class[] { HttpServletRequest.class };
         HttpServletRequest proxyRequest = (HttpServletRequest) Proxy.newProxyInstance(this.getClass().getClassLoader(),
             proxyInterfaces,
             proxyServiceRequestWrapper);
-        if (doLog) {
-            log("Call super.service");
-        }
         super.service(proxyRequest, servletResponse);
-        if (doLog) {
-            log("Preparing to check CORS Header");
-        }
-		if (servletResponse.getHeader("Access-Control-Allow-Origin") != null) {
-			if (doLog) {
-				log("CORS Header found");
-			}
-		} else {
-			servletResponse.setHeader("Access-Control-Allow-Origin", "*");
-			if (doLog) {
-				log("CORS Header added");
-			}
-		}
-		if (doLog) {
-		    log("End proxyservlet service");
-		}
+	}
+	
+	private IProxyWrapper getRequestWrapper(HttpServletRequest servletRequest) {
+		return requestWrapperFactory.getWrapper(servletRequest, proxyServiceSecurityCheck);
 	}
 	
 	protected void copyResponseEntity(HttpResponse proxyResponse, HttpServletResponse servletResponse,
