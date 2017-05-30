@@ -14,12 +14,12 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
 
-import javax.servlet.ServletInputStream;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.log4j.Logger;
 import org.dspace.app.webui.util.IProxyServiceSecurityCheck;
 import org.dspace.app.webui.util.IProxyWrapper;
+import org.dspace.app.webui.util.ProxyServletInputStream;
 import org.dspace.app.webui.util.UIUtil;
 import org.dspace.authorize.AuthorizeManager;
 import org.dspace.content.Bitstream;
@@ -95,50 +95,6 @@ public class ProxyServletRequestWrapper implements IProxyWrapper {
         }
     }
     
-    private static class ProxyServletInputStream extends ServletInputStream {
-        private InputStream is;
-
-        public ProxyServletInputStream(InputStream is) {
-            this.is = is;
-        }
-        
-        public int read() throws IOException {
-            return is.read();
-        }
-
-        public int read(byte b[]) throws IOException {
-            return is.read(b, 0, b.length);
-        }
-
-        public int read(byte b[], int off, int len) throws IOException {
-            return is.read(b, off, len);
-        }
-
-        public long skip(long n) throws IOException {
-            return is.skip(n);
-        }
-
-        public int available() throws IOException {
-            return is.available();
-        }
-
-        public void close() throws IOException {
-            is.close();
-        }
-
-        public synchronized void mark(int readlimit) {
-            is.mark(readlimit);
-        }
-
-        public synchronized void reset() throws IOException {
-            is.reset();
-        }
-
-        public boolean markSupported() {
-            return is.markSupported();
-        }
-    }
-
     @Override
     public Object getRealObject()
     {

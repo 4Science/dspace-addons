@@ -29,6 +29,7 @@ import org.apache.http.params.HttpParams;
 import org.apache.http.util.EntityUtils;
 import org.dspace.app.webui.util.IProxyServiceSecurityCheck;
 import org.dspace.app.webui.util.IProxyWrapper;
+import org.dspace.app.webui.util.IProxyWrapperFactory;
 import org.dspace.authorize.AuthorizeException;
 import org.dspace.content.Bitstream;
 import org.dspace.core.ConfigurationManager;
