@@ -21,8 +21,9 @@ import org.dspace.app.webui.util.IProxyServiceSecurityCheck;
 import org.dspace.app.webui.util.IProxyWrapper;
 import org.dspace.app.webui.util.ProxyServletInputStream;
 import org.dspace.app.webui.util.UIUtil;
-import org.dspace.authorize.AuthorizeManager;
+import org.dspace.authorize.factory.AuthorizeServiceFactory;
 import org.dspace.content.Bitstream;
+import org.dspace.content.factory.ContentServiceFactory;
 import org.dspace.core.Constants;
 import org.dspace.core.Context;
 
@@ -66,8 +67,8 @@ public class ProxyServletRequestWrapper implements IProxyWrapper {
                 try {
                     context = UIUtil.obtainContext(realRequest);
                     realRequest.setAttribute("ProxyServletRequestWrapper-requestPath", realRequest.getServletPath() + "/" + realPath[1]); 
-                    Bitstream bit = Bitstream.find(context, Integer.parseInt(realPath[1]));
-                    AuthorizeManager.authorizeAction(context, bit, Constants.READ);
+                    Bitstream bit = ContentServiceFactory.getInstance().getBitstreamService().find(context, UIUtil.getUUIDParameter(realRequest,realPath[1]));
+                    AuthorizeServiceFactory.getInstance().getAuthorizeService().authorizeAction(context, bit, Constants.READ);
                     Class[] proxyInterfaces = new Class[] { HttpServletRequest.class };
                     HttpServletRequest proxyRequest = (HttpServletRequest) Proxy.newProxyInstance(this.getClass().getClassLoader(),
                             proxyInterfaces,
