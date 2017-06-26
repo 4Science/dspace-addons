@@ -13,6 +13,7 @@ import java.io.InputStream;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
+import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -67,7 +68,7 @@ public class ProxyServletRequestWrapper implements IProxyWrapper {
                 try {
                     context = UIUtil.obtainContext(realRequest);
                     realRequest.setAttribute("ProxyServletRequestWrapper-requestPath", realRequest.getServletPath() + "/" + realPath[1]); 
-                    Bitstream bit = ContentServiceFactory.getInstance().getBitstreamService().find(context, UIUtil.getUUIDParameter(realRequest,realPath[1]));
+                    Bitstream bit = ContentServiceFactory.getInstance().getBitstreamService().find(context, UUID.fromString(realPath[1]));
                     AuthorizeServiceFactory.getInstance().getAuthorizeService().authorizeAction(context, bit, Constants.READ);
                     Class[] proxyInterfaces = new Class[] { HttpServletRequest.class };
                     HttpServletRequest proxyRequest = (HttpServletRequest) Proxy.newProxyInstance(this.getClass().getClassLoader(),
