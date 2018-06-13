@@ -38,10 +38,18 @@ public class ProxyServletRequestWrapper implements IProxyWrapper {
     protected String rewritePathInfo;
 
     protected IProxyServiceSecurityCheck proxyServiceSecurityCheck;
+    
+    private boolean checkAuth = true;
 
     public ProxyServletRequestWrapper(HttpServletRequest realRequest,
             IProxyServiceSecurityCheck proxyServiceSecurityCheck) {
-        this.realRequest = realRequest;
+    	this(realRequest, proxyServiceSecurityCheck, true);
+    }
+    
+    public ProxyServletRequestWrapper(HttpServletRequest realRequest,
+            IProxyServiceSecurityCheck proxyServiceSecurityCheck, boolean checkAuth) {
+        this.checkAuth = checkAuth;
+    	this.realRequest = realRequest;
         this.proxyServiceSecurityCheck = proxyServiceSecurityCheck;
         try {
             this.inputStream = new ProxyServletInputStream(new BufferedInputStream(realRequest.getInputStream()));
@@ -67,7 +75,9 @@ public class ProxyServletRequestWrapper implements IProxyWrapper {
                     context = UIUtil.obtainContext(realRequest);
                     realRequest.setAttribute("ProxyServletRequestWrapper-requestPath", realRequest.getServletPath() + "/" + realPath[1]); 
                     Bitstream bit = Bitstream.find(context, Integer.parseInt(realPath[1]));
-                    AuthorizeManager.authorizeAction(context, bit, Constants.READ);
+                    if (checkAuth) {
+                    	AuthorizeManager.authorizeAction(context, bit, Constants.READ);
+                    }
                     Class[] proxyInterfaces = new Class[] { HttpServletRequest.class };
                     HttpServletRequest proxyRequest = (HttpServletRequest) Proxy.newProxyInstance(this.getClass().getClassLoader(),
                             proxyInterfaces,

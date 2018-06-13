@@ -44,12 +44,14 @@ public class ConfigurableProxyServlet extends ProxyServlet {
 	private IProxyServiceSecurityCheck proxyServiceSecurityCheck;
 	private IProxyWrapperFactory requestWrapperFactory;
 	private boolean forceRewriteRelativePath = false;
-
+	private boolean checkAuth = true;
+	
 	@Override
 	public void init() throws ServletException {
 		moduleName = getConfigParam("moduleName");
 		serverUrlPropertyName = getConfigParam("serverUrlPropertyName");
 		forceRewriteRelativePath = "true".equalsIgnoreCase(getConfigParam("forceRewriteRelativePath"));
+		checkAuth = !"false".equalsIgnoreCase(getConfigParam("checkSimpleAuthorizationBitstream"));
 		if (doLog) {
 		    log("###INIT ConfigurableProxyServlet###");
 		    log("moduleName="+moduleName);
@@ -68,7 +70,7 @@ public class ConfigurableProxyServlet extends ProxyServlet {
 			requestWrapperFactory = new IProxyWrapperFactory() {
 				@Override
 				public IProxyWrapper getWrapper(HttpServletRequest req, IProxyServiceSecurityCheck security) {
-					return new ProxyServletRequestWrapper(req, security);
+					return new ProxyServletRequestWrapper(req, security, checkAuth);
 				}
 			};
 		}
@@ -136,7 +138,7 @@ public class ConfigurableProxyServlet extends ProxyServlet {
         super.service(proxyRequest, servletResponse);
 	}
 	
-	private IProxyWrapper getRequestWrapper(HttpServletRequest servletRequest) {
+	protected IProxyWrapper getRequestWrapper(HttpServletRequest servletRequest) {
 		return requestWrapperFactory.getWrapper(servletRequest, proxyServiceSecurityCheck);
 	}
 	
