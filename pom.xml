@@ -171,7 +171,10 @@
 			</activation>
 			<modules>
 				<module>api</module>
+				<module>ui</module>
 				<module>jspui</module>
+				<module>xmlui-api</module>
+				<module>xmlui</module>
 			</modules>
 		</profile>
 	</profiles>
@@ -193,6 +196,14 @@
 				<scope>provided</scope>
 			</dependency>
 			<dependency>
+				<groupId>org.dspace</groupId>
+				<artifactId>dspace-xmlui</artifactId>
+				<type>jar</type>
+				<classifier>classes</classifier>
+				<version>${dspace.version}</version>
+				<scope>provided</scope>
+			</dependency>
+			<dependency>
 				<groupId>javax.servlet</groupId>
 				<artifactId>javax.servlet-api</artifactId>
 				<version>3.0.1</version>
@@ -207,12 +218,28 @@
 				<groupId>it.4science.dspace</groupId>
 				<artifactId>addon-commons-api</artifactId>
 				<version>${project.version}</version>
-			</dependency>						
+			</dependency>
+			<dependency>
+				<groupId>it.4science.dspace</groupId>
+				<artifactId>addon-commons-ui</artifactId>
+				<type>war</type>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>it.4science.dspace</groupId>
+				<artifactId>addon-commons-ui</artifactId>
+				<type>jar</type>
+				<classifier>classes</classifier>
+				<version>${project.version}</version>
+			</dependency>
 		</dependencies>
 	</dependencyManagement>
 
 	<modules>
 		<module>api</module>
+		<module>ui</module>
 		<module>jspui</module>
+		<module>xmlui-api</module>
+		<module>xmlui</module>
 	</modules>
 </project>

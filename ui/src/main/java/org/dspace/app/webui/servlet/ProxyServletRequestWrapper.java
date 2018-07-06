@@ -18,10 +18,10 @@ import java.util.UUID;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.log4j.Logger;
+import org.dspace.app.webui.AddonUIAdapterUtil;
 import org.dspace.app.webui.util.IProxyServiceSecurityCheck;
 import org.dspace.app.webui.util.IProxyWrapper;
 import org.dspace.app.webui.util.ProxyServletInputStream;
-import org.dspace.app.webui.util.UIUtil;
 import org.dspace.authorize.factory.AuthorizeServiceFactory;
 import org.dspace.content.Bitstream;
 import org.dspace.content.factory.ContentServiceFactory;
@@ -66,7 +66,7 @@ public class ProxyServletRequestWrapper implements IProxyWrapper {
 
                 Context context = null;
                 try {
-                    context = UIUtil.obtainContext(realRequest);
+                    context = AddonUIAdapterUtil.obtainContext(realRequest);
                     realRequest.setAttribute("ProxyServletRequestWrapper-requestPath", realRequest.getServletPath() + "/" + realPath[1]); 
                     Bitstream bit = ContentServiceFactory.getInstance().getBitstreamService().find(context, UUID.fromString(realPath[1]));
                     AuthorizeServiceFactory.getInstance().getAuthorizeService().authorizeAction(context, bit, Constants.READ);

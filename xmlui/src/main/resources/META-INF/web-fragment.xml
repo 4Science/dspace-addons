@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-fragment xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+
+	xmlns="http://xmlns.jcp.org/xml/ns/javaee" xmlns:webfragment="http://java.sun.com/xml/ns/javaee/web-fragment_3_0.xsd"
+
+	xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-fragment_3_1.xsd"
+
+	id="IIIF_WEB_FRAGMENT" version="3.1">
+
+
+    <servlet>
+	    <servlet-name>iiif-image-server</servlet-name>
+	    <servlet-class>org.dspace.app.webui.servlet.ConfigurableProxyServlet</servlet-class>
+	    <init-param>
+	      <param-name>log</param-name>
+	      <param-value>true</param-value>
+	    </init-param>
+	    <init-param>
+	      <param-name>moduleName</param-name>
+	      <param-value>iiif</param-value>
+	    </init-param>
+	    <init-param>
+	      <param-name>serverUrlPropertyName</param-name>
+	      <param-value>image.server.url</param-value>
+	    </init-param>
+	    <init-param>
+	      <param-name>proxyServiceSecurityCheck</param-name>
+	      <param-value>iiifImageSecurityCheck</param-value>
+	    </init-param>
+	</servlet>
+
+	<servlet-mapping>
+	  <servlet-name>iiif-image-server</servlet-name>
+	  <url-pattern>/iiif-imgsrv/*</url-pattern>
+	</servlet-mapping>
+	
+    <servlet>
+	    <servlet-name>iiif-search-server</servlet-name>
+	    <servlet-class>org.dspace.app.webui.servlet.ConfigurableProxyServlet</servlet-class>
+	    <init-param>
+	      <param-name>log</param-name>
+	      <param-value>true</param-value>
+	    </init-param>
+	    <init-param>
+	      <param-name>moduleName</param-name>
+	      <param-value>iiif</param-value>
+	    </init-param>
+	    <init-param>
+	      <param-name>serverUrlPropertyName</param-name>
+	      <param-value>search.server.url</param-value>
+	    </init-param>
+	    <init-param>
+	      <param-name>proxyServiceSecurityCheck</param-name>
+	      <param-value>iiifSearchSecurityCheck</param-value>
+	    </init-param>
+	</servlet>
+
+	<servlet-mapping>
+	  <servlet-name>iiif-search-server</servlet-name>
+	  <url-pattern>/iiif-search/*</url-pattern>
+	</servlet-mapping>
+
+    <servlet>
+	    <servlet-name>iiif-autocomplete-server</servlet-name>
+	    <servlet-class>org.dspace.app.webui.servlet.ConfigurableProxyServlet</servlet-class>
+	    <init-param>
+	      <param-name>log</param-name>
+	      <param-value>true</param-value>
+	    </init-param>
+	    <init-param>
+	      <param-name>moduleName</param-name>
+	      <param-value>iiif</param-value>
+	    </init-param>
+	    <init-param>
+	      <param-name>serverUrlPropertyName</param-name>
+	      <param-value>autocomplete.server.url</param-value>
+	    </init-param>
+	    <init-param>
+	      <param-name>proxyServiceSecurityCheck</param-name>
+	      <param-value>iiifAutocompleteSecurityCheck</param-value>
+	    </init-param>
+	</servlet>
+
+	<servlet-mapping>
+	  <servlet-name>iiif-autocomplete-server</servlet-name>
+	  <url-pattern>/iiif-autocomplete/*</url-pattern>
+	</servlet-mapping>
+
+    <servlet>
+	    <servlet-name>iiif-ocr-server</servlet-name>
+	    <servlet-class>org.dspace.app.webui.servlet.ConfigurableProxyServlet</servlet-class>
+	    <init-param>
+	      <param-name>log</param-name>
+	      <param-value>true</param-value>
+	    </init-param>
+	    <init-param>
+	      <param-name>moduleName</param-name>
+	      <param-value>iiif</param-value>
+	    </init-param>
+	    <init-param>
+	      <param-name>serverUrlPropertyName</param-name>
+	      <param-value>ocr.server.url</param-value>
+	    </init-param>
+	    <init-param>
+	      <param-name>proxyServiceSecurityCheck</param-name>
+	      <param-value>iiifOCRSecurityCheck</param-value>
+	    </init-param>
+	</servlet>
+
+	<servlet-mapping>
+	  <servlet-name>iiif-ocr-server</servlet-name>
+	  <url-pattern>/iiif-ocr/*</url-pattern>
+	</servlet-mapping>
+
+</web-fragment>
