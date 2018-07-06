@@ -173,7 +173,7 @@
 				<module>api</module>
 				<module>ui</module>
 				<module>jspui</module>
-				<module>xmlui-api</module>
+				<module>xmlui-web</module>
 				<module>xmlui</module>
 			</modules>
 		</profile>
@@ -232,6 +232,12 @@
 				<classifier>classes</classifier>
 				<version>${project.version}</version>
 			</dependency>
+			<dependency>
+				<groupId>it.4science.dspace</groupId>
+				<artifactId>addon-commons-xmlui-web</artifactId>
+				<type>jar</type>
+				<version>${project.version}</version>
+			</dependency>
 		</dependencies>
 	</dependencyManagement>
 
@@ -239,7 +245,7 @@
 		<module>api</module>
 		<module>ui</module>
 		<module>jspui</module>
-		<module>xmlui-api</module>
+		<module>xmlui-web</module>
 		<module>xmlui</module>
 	</modules>
 </project>

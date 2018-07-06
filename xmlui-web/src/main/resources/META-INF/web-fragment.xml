@@ -8,12 +8,12 @@
 	id="ADDON_XMLUI_WEB_FRAGMENT" version="3.1">
 
     <servlet>
-  	  <servlet-name>json</servlet-name>
+  	  <servlet-name>addon-xmlui-json</servlet-name>
       <servlet-class>org.dspace.app.webui.servlet.JSONServlet</servlet-class>
     </servlet>
 
 	<servlet-mapping>
-	  <servlet-name>json</servlet-name>
+	  <servlet-name>addon-xmlui-json</servlet-name>
 	  <url-pattern>/json/*</url-pattern>
 	</servlet-mapping>
 

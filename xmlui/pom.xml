@@ -26,7 +26,7 @@
 				<artifactId>maven-war-plugin</artifactId>
 				<version>2.4</version>
 				<configuration>
-					<archiveClasses>false</archiveClasses>
+					<attachClasses>true</attachClasses>
 					<!-- In version 2.1-alpha-1, this was incorrectly named warSourceExcludes -->
 					<!-- <packagingExcludes>WEB-INF/lib/*.jar</packagingExcludes> -->
 					<warSourceExcludes>WEB-INF/lib/*.jar</warSourceExcludes>
@@ -61,6 +61,11 @@
 			<artifactId>addon-commons-ui</artifactId>
 			<type>jar</type>
 			<classifier>classes</classifier>
+		</dependency>
+		<dependency>
+			<groupId>it.4science.dspace</groupId>
+			<artifactId>addon-commons-xmlui-web</artifactId>
+			<type>jar</type>
 		</dependency>
 		<dependency>
 			<groupId>org.dspace</groupId>
