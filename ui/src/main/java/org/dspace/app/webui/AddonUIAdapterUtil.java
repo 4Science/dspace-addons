@@ -8,9 +8,11 @@
 package org.dspace.app.webui;
 
 import java.sql.SQLException;
+import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.dspace.app.util.Util;
 import org.dspace.core.Context;
 import org.dspace.utils.DSpace;
 
@@ -19,6 +21,10 @@ public class AddonUIAdapterUtil {
 	public static Context obtainContext(HttpServletRequest realRequest) throws SQLException {
 		AddonUIAdapter adapter = new DSpace().getSingletonService(AddonUIAdapter.class);
 		return adapter.obtainContext(realRequest);
+	}
+
+	public static UUID getUUIDParameter(HttpServletRequest request, String string) {
+		return Util.getUUIDParameter(request, string);
 	}
 
 }

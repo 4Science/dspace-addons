@@ -5,7 +5,7 @@
  *
  * http://www.dspace.org/license/
  */
-package org.dspace.app.webui;
+package org.dspace.app.webui.servlet;
 
 import java.io.IOException;
 
