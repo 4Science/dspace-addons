@@ -4,14 +4,14 @@
 	<parent>
 		<artifactId>addon-commons</artifactId>
 		<groupId>it.4science.dspace</groupId>
-		<version>5.1</version>
+		<version>5.2-SNAPSHOT</version>
 		<relativePath>../</relativePath>
 	</parent>
 	<groupId>it.4science.dspace</groupId>
 	<artifactId>addon-commons-jspui</artifactId>
 	<packaging>war</packaging>
 	<name>4Science Addons Commons JSPUI</name>
-	<version>5.1</version>
+	<version>5.2-SNAPSHOT</version>
 	
     <properties>
         <!-- This is the path to the root [dspace-src] directory. -->
