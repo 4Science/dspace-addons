@@ -44,6 +44,7 @@ public class DisplayItemMetadataUtils {
 			if (f.contains("(date)")) {
 				isDate = true;
 			}
+			f = f.trim();
 			f = f.replaceFirst("\\([A-z]*\\)", "");
 			List<MetadataValue> mvs = itemService.getMetadataByMetadataString(item, f);
 			for (MetadataValue mv : mvs) {
