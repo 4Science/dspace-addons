@@ -9,7 +9,7 @@
 
 	<groupId>it.4science.dspace</groupId>
 	<artifactId>addon-commons-api</artifactId>
-
+	<name>4Science Addons Commons API</name>
 
     <properties>
         <!-- This is the path to the root [dspace-src] directory. -->
