@@ -3,7 +3,7 @@
 	<parent>
 		<artifactId>addon-commons</artifactId>
 		<groupId>it.4science.dspace</groupId>
-		<version>5.3-SNAPSHOT</version>
+		<version>CRIS-5.3-SNAPSHOT</version>
 		<relativePath>../</relativePath>
 	</parent>
 
