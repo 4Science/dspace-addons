@@ -19,7 +19,7 @@
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<dspace.version>[5.0-SNAPSHOT,6.0-SNAPSHOT)</dspace.version>
+		<dspace.version>[5.0-SNAPSHOT,6.0-rc1-SNAPSHOT)</dspace.version>
         <!-- 'root.basedir' is the path to the root [src] dir. It must be redefined by each child POM,
              as it is used to reference the LICENSE_HEADER and *.properties file(s) in that directory. -->		
 		<root.basedir>${basedir}</root.basedir>		
@@ -149,7 +149,10 @@
 			</activation>
 			<modules>
 				<module>api</module>
+				<module>ui</module>
 				<module>jspui</module>
+				<module>xmlui-web</module>
+				<module>xmlui</module>
 			</modules>
 		</profile>
 	</profiles>
@@ -170,6 +173,14 @@
 				<version>${dspace.version}</version>
 				<scope>provided</scope>
 			</dependency>
+                        <dependency>
+                                <groupId>org.dspace</groupId>
+                                <artifactId>dspace-xmlui</artifactId>
+                                <type>jar</type>
+                                <classifier>classes</classifier>
+                                <version>${dspace.version}</version>
+                                <scope>provided</scope>
+                        </dependency>
 			<dependency>
 				<groupId>javax.servlet</groupId>
 				<artifactId>javax.servlet-api</artifactId>
@@ -185,12 +196,34 @@
 				<groupId>it.4science.dspace</groupId>
 				<artifactId>addon-commons-api</artifactId>
 				<version>${project.version}</version>
-			</dependency>						
+			</dependency>
+			<dependency>
+				<groupId>it.4science.dspace</groupId>
+				<artifactId>addon-commons-ui</artifactId>
+				<type>war</type>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>it.4science.dspace</groupId>
+				<artifactId>addon-commons-ui</artifactId>
+				<type>jar</type>
+				<classifier>classes</classifier>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>it.4science.dspace</groupId>
+				<artifactId>addon-commons-xmlui-web</artifactId>
+				<type>jar</type>
+				<version>${project.version}</version>
+			</dependency>
 		</dependencies>
 	</dependencyManagement>
 
 	<modules>
 		<module>api</module>
+		<module>ui</module>
 		<module>jspui</module>
+		<module>xmlui-web</module>
+		<module>xmlui</module>
 	</modules>
 </project>
