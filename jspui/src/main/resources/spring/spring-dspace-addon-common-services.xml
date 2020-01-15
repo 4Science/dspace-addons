@@ -19,7 +19,7 @@
 
     <context:annotation-config /> <!-- allows us to use spring annotations in beans -->
 
-    <bean id="org.dspace.app.webui.AddonUIAdapter" class="org.dspace.app.webui.XMLUIAddonAdapter" />
+    <bean id="org.dspace.app.webui.AddonUIAdapter" class="org.dspace.app.webui.JSPUIAddonAdapter" />
 
 	<bean id="messageSource" class="org.springframework.context.support.ResourceBundleMessageSource">
         <property name="basenames">

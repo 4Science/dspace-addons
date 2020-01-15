@@ -56,10 +56,21 @@
 			<artifactId>dspace-api</artifactId>
 			<scope>provided</scope>
 		</dependency>
+			<dependency>
+				<groupId>org.dspace</groupId>
+				<artifactId>dspace-services</artifactId>
+				<scope>provided</scope>
+			</dependency>		
 		<dependency>
 		    <groupId>org.mitre.dsmiley.httpproxy</groupId>
 		    <artifactId>smiley-http-proxy-servlet</artifactId>
 		    <type>jar</type>
+			<exclusions>
+				<exclusion>
+					<groupId>org.apache.httpcomponents</groupId>
+					<artifactId>httpclient</artifactId>
+				</exclusion>
+			</exclusions>		    
 		</dependency>
 		<dependency>
 			<groupId>javax.servlet</groupId>
@@ -69,6 +80,25 @@
 			<groupId>it.4science.dspace</groupId>
 			<artifactId>addon-commons-api</artifactId>
 		</dependency>
+         <dependency>
+            <groupId>log4j</groupId>
+            <artifactId>log4j</artifactId>
+         </dependency>
+		<dependency>
+		   <groupId>commons-lang</groupId>
+		   <artifactId>commons-lang</artifactId>
+		   <scope>provided</scope>			   
+		</dependency>
+		<dependency>
+		   <groupId>org.apache.httpcomponents</groupId>
+		   <artifactId>httpcore</artifactId>
+		   <scope>provided</scope>            
+		</dependency>
+		<dependency>
+		   <groupId>org.apache.httpcomponents</groupId>
+		   <artifactId>httpclient</artifactId>
+		   <scope>provided</scope>			   
+		</dependency>		         		
 	</dependencies>
 
 </project>

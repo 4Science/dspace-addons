@@ -21,11 +21,26 @@
 		<dependency>
 			<groupId>org.dspace</groupId>
 			<artifactId>dspace-api</artifactId>
+			<scope>provided</scope>
 		</dependency>
+			<dependency>
+				<groupId>org.dspace</groupId>
+				<artifactId>dspace-services</artifactId>
+				<scope>provided</scope>
+			</dependency>		
 		<dependency>
 			<groupId>javax.servlet</groupId>
 			<artifactId>javax.servlet-api</artifactId>
 			<scope>compile</scope>
-		</dependency>	
+		</dependency>
+         <dependency>
+            <groupId>log4j</groupId>
+            <artifactId>log4j</artifactId>
+         </dependency>
+			<dependency>
+				<artifactId>spring-webmvc</artifactId>
+				<groupId>org.springframework</groupId>
+				<scope>provided</scope>				
+			</dependency>         				
 	</dependencies>
 </project>
